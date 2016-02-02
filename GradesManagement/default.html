@@ -4,6 +4,7 @@
     <title>Students Grades Management</title>
 	<meta charset="utf-8" />
     <link rel="stylesheet" href="content/css/default.css"/>
+    <script src="scripts/jquery-1.12.0.js"></script>
     <script src="scripts/default.js"></script>
 </head>
 <body>
@@ -11,8 +12,14 @@
         <h1>Students Grades Management</h1>
     </header>
     <main>
-        <div>
-            <!--TODO "ADD STUDENTS" MODULE-->
+        <div id="addTask">
+            <label for="tarea">Task: </label>
+            <input type="text" id="tarea" value="" />
+        </div>
+        <div id="buttons">
+            <button id="btnAddTask">
+                Add Task
+            </button>
         </div>
         <div>
             <!-- TODO "ADD ASSIGMENTS" MODULE-->

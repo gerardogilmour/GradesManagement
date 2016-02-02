@@ -1,4 +1,6 @@
-﻿(function () {
+﻿/// <reference path="jquery-1.12.0.js" />
+
+(function () {
     this.gradesControl = this.gradesControl || {};
     var ns = this.gradesControl;
 
@@ -9,5 +11,11 @@
 
     //TODO CREATE ADD ALUMN FUNCTION, EDIT ALUMN, DELETE ALUMN (SUGGESTED USE PROTOTYPES)
 
+    $(document).on("ready", function () {
+        $('#btnAddTask').on('click', function (e) {
+            console.log('hola');
+            $('#addTask').fadeToggle();
+        });
+    });
 })();
 

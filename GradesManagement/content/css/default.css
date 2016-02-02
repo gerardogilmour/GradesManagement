@@ -6,3 +6,9 @@
 }
 
 /* DEFINE STYLES */
+
+#addTask{
+    margin-bottom: 15px;
+    display:none;
+    
+}
