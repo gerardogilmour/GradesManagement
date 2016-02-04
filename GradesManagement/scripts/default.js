@@ -27,7 +27,7 @@
             for (var i = 0; i < this.assigments.length; i++) {
                 grade += Number(this.assigments[i].grade);
             }
-            return grade / this.assigments.length;
+            return (grade / this.assigments.length).toFixed(2);
         }
     };
 
@@ -111,14 +111,20 @@
             });
         }
         $("#alumnGrades").html(html);
-        $("#cover").fadeTo(1000, .5);
+        $("#cover").fadeTo(400, .5);
         $("#modalDialog").fadeIn();
     }
 
     function hideEditModal() {
-        $("#modalDialog").fadeOut();
-        $("#cover").fadeOut();
+        $("#modalDialog").fadeOut().promise();
+        $("#cover").fadeOut().promise().done(function(){
+            $("#editForm input").each(function () {
+                $(this).val("");
+            });
+        });
+        
     }
+
     $(document).on("ready", function () {
         //INITIAL DATA
         assigments.push(new Assigment("Task 1"));
