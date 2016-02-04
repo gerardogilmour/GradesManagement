@@ -13,6 +13,7 @@
     </header>
     <main>
         <div id="addTask">
+            <!-- TODO "ADD ASSIGMENTS" MODULE-->
             <label for="tarea">Task: </label>
             <input type="text" id="tarea" value="" />
         </div>
@@ -21,31 +22,51 @@
                 Add Task
             </button>
         </div>
-        <div>
-            <!-- TODO "ADD ASSIGMENTS" MODULE-->
-        </div>
-        <!-- TODO ADD DISPLAY GRADES TABLE, WITH EDIT AND DELETE OPTIONS -->
         <!-- TODO ADD STYLE TO THE TABLE-->
         <table>
             <caption>Grades</caption>
             <thead>
-                <tr>
+                <tr id="row-header">
                     <th>Students</th>
                     <th>Task 1</th>
                     <th>Final Grade</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="alumns">
                 <tr>
                     <td>Yulianna Murillo</td>
                     <td>9.7</td>
                     <td>9.7</td>
-                    <td><a href="#">Edit</a></td>
-                    <td><a href="#">Delete</a></td>
+                    <td><a class="editAlumn" href="#">Edit</a></td>
+                    <td><a class="deleteAlumn" href="#">Delete</a></td>
                 </tr>
             </tbody>
         </table>
     </main>
+    <div id="cover"></div>
+    <div id="modalDialog">
+        <div id="editContainer">
+            <span id="closeModal">&times;</span>
+            <form id="editForm">
+                <section id="alumnData">
+                    <input type="hidden" id="index" name="index" required />
+                    <div>
+                        <label for="alumn.name">First name</label>
+                        <input type="text" id="name" name="name" placeholder="First Name..." required/> 
+                    </div>
+                    <div>
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name..." required />
+                    </div>
+                </section>
+                <section id="alumnGrades">
+                </section>
+                <section id="buttons">
+                    <button type="submit">Edit</button>
+                </section>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
