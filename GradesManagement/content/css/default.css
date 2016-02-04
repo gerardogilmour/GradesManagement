@@ -1,5 +1,5 @@
 ﻿body {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
@@ -7,10 +7,9 @@
 
 /* DEFINE STYLES */
 
-#addTask{
+#addTask {
     margin-bottom: 15px;
-    display:none;
-    
+    display: none;
 }
 
 #editContainer {
@@ -19,9 +18,10 @@
     padding: 2em;
     border-radius: 10px;
     width: 350px;
-    height: 250px;
+    height: 350px;
     margin: 100px auto;
-    overflow-y: auto;   
+    overflow-y: auto;
+    box-shadow: rgba(0,0,0,.5) 4px 5px 10px;
 }
 
 #modalDialog {
@@ -49,9 +49,37 @@
     font-family: fantasy;
     cursor: pointer;
     float: right;
-
 }
 
-#closeModal:hover{
-    color: lightblue;
+    #closeModal:hover {
+        color: lightblue;
+    }
+
+#editContainer > header > h3 {
+    display: inline-block;
 }
+
+#editForm > section > div {
+    margin: 5px auto;
+}
+
+    #editForm > section > div > label, #editForm > section > div > input {
+        width: 100%;
+        margin: 5px auto;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+#editForm input {
+    padding: 5px;
+}
+
+#editButtons {
+    margin: 5px auto;
+}
+
+    #editButtons button {
+        padding: 5px;
+        width: 50px;
+    }
