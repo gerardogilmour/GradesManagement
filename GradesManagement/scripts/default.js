@@ -193,9 +193,8 @@
         //DELETE ALUMN
         $("tbody#alumns").on("click", "[data-action='delete']", function (e) {
             e.preventDefault();
-            console.log($(this).data("index"));
-            //TODO IMPLEMENT DELETE ALUMN FUNCTION
-            //deleteAlumn($(this).data("index"));
+            alumns.splice($(this).data("index"), 1);
+            generateRows();
         });
 
         $("#closeModal").click(hideEditModal);
