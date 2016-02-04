@@ -33,6 +33,16 @@
 
     //TODO ADD CREATE ASSIGMENTS MODULE
     function createAssigment() {
+        $('#confirmar').on('click', function () {
+            var assigment = new Assigment($('#tarea').val());
+            assigments.push(assigment);
+            for (var i = 0; i < alumns.length; i++) {
+                alumns[i].assigments.push(assigment);
+            }
+            generateColHeaders();
+            generateRows();
+        });
+        
 
     };
 
@@ -142,7 +152,8 @@
         alumns.push(alumn2);
 
         generateRows();
-
+ 
+        createAssigment();
         //EVENT HANDLERS
         $('#btnAddTask').on('click', function (e) {
             $('#addTask').fadeToggle();
