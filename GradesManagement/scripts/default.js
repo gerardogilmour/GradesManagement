@@ -137,6 +137,23 @@
         
     }
 
+    function showAddModal(index) {
+        var html = "";
+        $("#alumnGrades2").html(html);
+        $("#cover2").fadeTo(400, .5);
+        $("#modalDialog2").fadeIn();
+    }
+
+    function hideAddModal() {
+        $("#modalDialog2").fadeOut().promise();
+        $("#cover2").fadeOut().promise().done(function () {
+            $("#addForm input").each(function () {
+                $(this).val("");
+            });
+        });
+
+    }
+
     $(document).on("ready", function () {
         //INITIAL DATA
         assigments.push(new Assigment("Task 1"));
@@ -159,6 +176,23 @@
         //EVENT HANDLERS
         $('#btnAddTask').on('click', function (e) {
             $('#addTask').fadeToggle();
+        });
+
+        //ADD ALUMN
+        $('#btnAddAlumn').on('click', function (e) {
+            e.preventDefault();
+            showAddModal($(this).data("index"));
+        });
+
+
+        $("#addForm").on("submit", function (e) {
+            e.preventDefault();
+            var alumn = new Alumn($("#name2").val(), $("#lastName2").val());
+            for (var i = 0; i < assigments.length; i++) {
+                alumn.assigments.push(assigments[i]);
+            }
+            alumns.push(alumn);
+            generateRows();
         });
 
         //EDIT ALUMN
@@ -199,6 +233,7 @@
             generateRows();
         });
 
+        $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
     });
 })();
