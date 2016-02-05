@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-1.12.0.js" />
+/// <reference path="jquery-1.12.0.js" />
 
 (function () {
     this.gradesControl = this.gradesControl || {};
@@ -54,7 +54,8 @@
             html += "<tr data-index='" + i + "'>";
             html += "<td>" + alumns[i].getFullName() + "</td>";
             for (var j = 0; j < alumns[i].assigments.length; j++) {
-                html += "<td>" + alumns[i].assigments[j].grade + "</td>";
+                var grade = alumns[i].assigments[j].grade;
+                html += "<td class='"+(grade < 6 ? "failed" : "")+"'>" + alumns[i].assigments[j].grade + "</td>";
             }
 
             html += "<td>" + alumns[i].calculateFinalGrade() + "</td>";
@@ -78,7 +79,8 @@
     function updateRow(rowIndex, alumn) {
         var html = "<td>" + alumn.getFullName() + "</td>";
         for (var i = 0; i < alumn.assigments.length; i++) {
-            html += "<td>" + alumn.assigments[i].grade + "</td>";
+            var grade = alumn.assigments[i].grade;
+            html += "<td class=' "+(grade < 6 ? "failed" : "")+" '>" + alumn.assigments[i].grade + "</td>";
         }
 
         html += "<td>" + alumn.calculateFinalGrade() + "</td>";

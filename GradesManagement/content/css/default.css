@@ -1,4 +1,4 @@
-﻿body {
+body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 16px;
     margin: 0;
@@ -83,3 +83,50 @@
         padding: 5px;
         width: 50px;
     }
+
+th {
+    background-color:#2e8fe2;
+    border-color: aquamarine;
+    color:white;
+    
+}
+
+table, tbody, thead, th, tr, td{
+    border border-color: aqua;
+    
+}
+
+caption{
+    background-color: rgba(6, 197, 255, 0.96);
+    color:#ffffff;
+    font-weight: bold;
+}
+
+tbody td:first-of-type{
+    background-color: rgba(236, 255, 11, 0.4);
+}
+
+a[href*="#"]{
+    background-color: rgb(255, 245, 0);
+    color:blue;
+    font-weight: bold;
+}
+
+td{
+    background-color: rgba(49, 255, 0, 0.6);
+}
+
+
+a:hover{
+    color: rgb(255, 10, 0);
+    background-color: black;
+}
+
+td:hover{
+    color: blue;
+}
+
+td.failed{
+    background-color: red;
+}
+
