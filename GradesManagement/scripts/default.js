@@ -13,8 +13,18 @@
 
     $(document).on("ready", function () {
         $('#btnAddTask').on('click', function (e) {
-            console.log('hola');
             $('#addTask').fadeToggle();
+            
+        });
+        $('#btnConfirm').on('click', function () {
+            
+
+            $('thead>tr').append('<th>' + $('#tarea').val() + '</th>');
+
+              $('tbody>tr').appendTo('<td></td>');
+            
+            $('#tarea').val('');
+            alert('column added');
         });
     });
 })();
