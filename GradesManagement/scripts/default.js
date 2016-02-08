@@ -19,9 +19,10 @@
         $('#btnConfirm').on('click', function () {
             
 
-            $('thead>tr').append('<th>' + $('#tarea').val() + '</th>');
+            $('thead :eq(1)').after('<th>' + $('#tarea').val() + '</th>');
 
-              $('tbody>tr').appendTo('<td></td>');
+            
+            $('tbody tr td:nth-child(1)').after('<td>Posit </td>');
             
             $('#tarea').val('');
             alert('column added');
