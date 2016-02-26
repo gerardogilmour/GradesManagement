@@ -77,12 +77,12 @@
     <!--AISIGN TUTORS MODULE-->
     <div id="cover3"></div>
     <div id="modalDialog3">
-        <div id="addEditContainer">
+        <div id="assignTutorContainer">
             <header>
-                <h3>Add/Edit Tutor</h3>
+                <h3>Assign Tutor</h3>
                 <span id="closeModal3">&times;</span>
             </header>
-            <form id="addEditForm">
+            <form id="assignTutorForm">
                 <section id="tutorData">
                     <select id="slTutors" name="slTutors"></select>
                     <div>
@@ -91,16 +91,19 @@
                     </div>
                     <input type="hidden" id="index3" name="index3" required />
                     <div>
+                        <p style="font-weight: bold; text-align: center;">____ Tutor Info ____</p>
+                    </div>
+                    <div>
                         <label for="tutor.name">First name</label>
-                        <input type="text" id="name3" name="name3" placeholder="First Name..." required />
+                        <input type="text" id="name3" name="name3" readOnly />
                     </div>
                     <div>
                         <label for="lastName3">Last name</label>
-                        <input type="text" id="lastName3" name="lastName3" placeholder="Last Name..." required />
+                        <input type="text" id="lastName3" name="lastName3" readOnly />
                     </div>
                 </section>
                 <!--<section id="alumnGrades"></section>-->
-                <section id="addEditButtons">
+                <section id="assignTutorButtons">
                     <button type="submit">Assign Tutor</button>
                 </section>
             </form>
