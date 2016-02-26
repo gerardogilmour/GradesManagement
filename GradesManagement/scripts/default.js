@@ -6,6 +6,7 @@
 
     var alumns = [];
     var assigments = [];
+    var tutors = [];
 
     //PROTOTYPES
     var Assigment = function (description, grade) {
@@ -13,10 +14,12 @@
         this.grade = grade || "0.0";
     }
 
-    var Alumn = function (name, lastName) {
+    var Alumn = function (name, lastName, tutor) {
         this.name = name || "Juan";
         this.lastName = lastName || "Perez";
         this.assigments = [];
+        // this.tutor = [];
+        this.tutor = tutor || "";
 
         this.getFullName = function () {
             return this.name + " " + this.lastName;
@@ -31,6 +34,19 @@
         }
     };
 
+
+
+    var Tutor = function (name, lastName) {     //****************************************YOOOOOOOOOOOOOOOOOOOOOOOO
+        this.name = name || "Juan";
+        this.lastName = lastName || "Perez";
+
+        this.getFullName = function () {
+            return this.name + " " + this.lastName;
+        }
+    };
+
+
+
     //TODO ADD CREATE ASSIGMENTS MODULE
     function createAssigment() {
         $('#confirmar').on('click', function () {
@@ -42,7 +58,7 @@
             generateColHeaders();
             generateRows();
         });
-        
+
 
     };
 
@@ -55,12 +71,14 @@
             html += "<td>" + alumns[i].getFullName() + "</td>";
             for (var j = 0; j < alumns[i].assigments.length; j++) {
                 var grade = alumns[i].assigments[j].grade;
-                html += "<td class='"+(grade < 6 ? "failed" : "")+"'>" + alumns[i].assigments[j].grade + "</td>";
+                html += "<td class='" + (grade < 6 ? "failed" : "") + "'>" + alumns[i].assigments[j].grade + "</td>";
             }
 
             html += "<td>" + alumns[i].calculateFinalGrade() + "</td>";
+            html += "<td>" + alumns[i].tutor + "</td>";
             html += "<td><a href='#' data-action='edit' data-index='" + i + "'>Edit</a></td>";
             html += "<td><a href='#' data-action='delete' data-index='" + i + "'>Delete</a></td>";
+            html += "<td><a href='#' data-action='add' data-index='" + i + "'>Add Tutor</a></td>";              //*********************YOOOOOOOOOOOOOOOOOOOOOOOOOO
             html += "</tr>";
         }
         $("#alumns").html(html);
@@ -72,7 +90,8 @@
             html += "<th>" + assigments[i].description + "</th>";
         }
         html += "<th>Final Grade</th>";
-        html += "<th colspan='2'>Actions</th>";
+        html += "<th>Tutor</th>";
+        html += "<th colspan='4'>Actions</th>";                                              //************************************YOOOOOOOOOOOOOOOOOOOOOOOOOOO
         $("#row-header").html(html);
     }
 
@@ -80,12 +99,13 @@
         var html = "<td>" + alumn.getFullName() + "</td>";
         for (var i = 0; i < alumn.assigments.length; i++) {
             var grade = alumn.assigments[i].grade;
-            html += "<td class=' "+(grade < 6 ? "failed" : "")+" '>" + alumn.assigments[i].grade + "</td>";
+            html += "<td class=' " + (grade < 6 ? "failed" : "") + " '>" + alumn.assigments[i].grade + "</td>";
         }
 
         html += "<td>" + alumn.calculateFinalGrade() + "</td>";
         html += "<td><a href='#' data-action='edit' data-index='" + rowIndex + "'>Edit</a></td>";
         html += "<td><a href='#' data-action='delete' data-index='" + rowIndex + "'>Delete</a></td>";
+        html += "<td><a href='#' data-action='add' data-index='" + rowIndex + "'>Add Tutor</a></td>";
         $("tr[data-index='" + rowIndex + "']").html(html);
     }
 
@@ -106,6 +126,19 @@
         hideEditModal();
     };
 
+    function assignTutor(data) {   //************** A ver si funciona sin agregar todos los parametros
+        var alumn = alumns[data.index];
+        //alert(data.name);
+        //alumn.tutor = data.tutor;
+        alumn.tutor = data.tutor;
+        updateRow(data.index, alumn);
+        hideaddEditModal();
+    };
+
+
+
+
+
     function showEditModal(index) {
         var alumn = alumns[index];
         $("#editForm #index").val(index);
@@ -116,7 +149,7 @@
         for (var i = 0; i < alumn.assigments.length ; i++) {
             html += generateFormInput({
                 id: "assigments[" + i + "]",
-                name: "assigments["+ i +"]",
+                name: "assigments[" + i + "]",
                 index: i,
                 title: alumn.assigments[i].description,
                 value: alumn.assigments[i].grade
@@ -129,13 +162,56 @@
 
     function hideEditModal() {
         $("#modalDialog").fadeOut().promise();
-        $("#cover").fadeOut().promise().done(function(){
+        $("#cover").fadeOut().promise().done(function () {
             $("#editForm input").each(function () {
                 $(this).val("");
             });
         });
-        
+
     }
+
+
+
+    function showAddEditModal(index) {
+        var option = '';
+        for (var i = 1; i <= tutors.length; i++) {
+            option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
+        }
+        $('#slTutors').append(option);
+        //**************************
+        var alumn = alumns[index];
+        $("#addEditForm #index3").val(index);
+        $("#addEditForm #alumn").val(alumn.name + " " + alumn.lastName);
+
+        /* var html = "";
+         for (var i = 0; i < alumn.assigments.length ; i++) {
+             html += generateFormInput({
+                 id: "assigments[" + i + "]",
+                 name: "assigments[" + i + "]",
+                 index: i,
+                 title: alumn.assigments[i].description,
+                 value: alumn.assigments[i].grade
+             });
+         }
+         $("#alumnGrades").html(html);*/
+        $("#cover3").fadeTo(400, .5);
+        $("#modalDialog3").fadeIn();
+
+
+    }
+
+    function hideaddEditModal() {
+        $("#modalDialog3").fadeOut().promise();
+        $("#cover3").fadeOut().promise().done(function () {
+            $("#addEditForm input").each(function () {
+                $(this).val("");
+            });
+        });
+
+    }
+
+
+
 
     function showAddModal(index) {
         var html = "";
@@ -154,25 +230,42 @@
 
     }
 
+
+
+    /*  function check() {
+          alert($("#slTutors").prop('selectedIndex'));
+          alert(document.getElementById("slTutors").value);
+      }*/
+
+
+
     $(document).on("ready", function () {
         //INITIAL DATA
         assigments.push(new Assigment("Task 1"));
         assigments.push(new Assigment("Task 2"));
         generateColHeaders();
 
-        var alumn1 = new Alumn("Yulianna", "Murillo");
+        var alumn1 = new Alumn("Yulianna", "Murillo", "Tutor1");
         alumn1.assigments.push(new Assigment("Task 1", "9.7"));
         alumn1.assigments.push(new Assigment("Task 2", "9.7"));
         alumns.push(alumn1);
 
-        var alumn2 = new Alumn("Fabricio", "Lopez");
+        var alumn2 = new Alumn("Fabricio", "Lopez", "Tutor2");
         alumn2.assigments.push(new Assigment("Task 2", "9.45"));
         alumn2.assigments.push(new Assigment("Task 2", "10"));
         alumns.push(alumn2);
 
+        var tutur1 = new Tutor("Alejandro", "Pérez");
+        tutors.push(tutur1);
+
+        var tutur2 = new Tutor("Maricela", "Martinez");
+        tutors.push(tutur2);
+        //alert(tutors.length);
         generateRows();
- 
         createAssigment();
+
+
+
         //EVENT HANDLERS
         $('#btnAddTask').on('click', function (e) {
             $('#addTask').fadeToggle();
@@ -194,6 +287,105 @@
             alumns.push(alumn);
             generateRows();
         });
+
+
+
+
+
+        //ADD/EDIT TUTORS
+        $("tbody#alumns").on("click", "[data-action='add']", function (e) {
+            e.preventDefault();
+            showAddEditModal($(this).data("index"));
+        });
+
+
+
+        //EXTRACT DATA FROM select-option
+        $('#slTutors').bind('change', function () {
+            var $this = $(this),
+            $value = $this.val();   //Extraer indice de selección
+            $("#addEditForm #name3").val(tutors[$value - 1].name);
+            $("#addEditForm #lastName3").val(tutors[$value - 1].lastName);
+        });
+
+
+        $("#addEditForm").on("submit", function (e) {
+            e.preventDefault();
+            //$('#confirmar').on('click', function () {
+            //var assigment = new Assigment($('#tarea').val());
+            /*var option = '';
+            for (var i = 1; i <= tutors.length; i++) {
+                option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
+            }
+            $('#slTutors').append(option);
+            //**************************
+            var alumn = alumns[index];
+            $("#addEditForm #index3").val(index);
+            $("#addEditForm #alumn").val(alumn.name + " " + alumn.lastName);
+            */
+
+
+            /*  var tutor = new Tutor($("#name3").val(), $("#lastName3").val());
+              alumns.push()
+              assigments.push(assigment);
+              for (var i = 0; i < alumns.length; i++) {
+                  alumns[i].assigments.push(assigment);
+              }
+              generateColHeaders();
+              generateRows();*/
+            var alumn = {
+                assigments: []
+            };
+            var formArray = $(this).serializeArray();
+            alert(formArray[2].value);
+            alumn.index = formArray[1].value;
+            //alumn.name = formArray[2].value;
+            alumn.tutor = formArray[2].value;
+            assignTutor(alumn);
+            generateRows();
+
+            /*for (var i = 0; i < formArray.length; i++) {
+                switch (formArray[i].name) {
+                    case "index3":
+                        alert("caso 1: "+formArray[i].name);
+                        break;
+                    case "name3":
+                        alert("caso 2: " + formArray[i].name);
+                        break;
+                    case "lastName3":
+                        alert("caso 3: " + formArray[i].name);
+                        break;
+                    default:   //"slTutors"
+                        alert("default: " + formArray[i].name);
+                        break;
+                }
+            }*/
+            // editAlumn(alumn);
+            //});
+            /*   var alumn = {
+                  assigments: []
+              };
+              var formArray = $(this).serializeArray();
+              for (var i = 0; i < formArray.length; i++) {
+                  switch (formArray[i].name) {
+                      case "index":
+                          alumn.index = formArray[i].value;
+                          break;
+                      case "name":
+                          alumn.name = formArray[i].value;
+                          break;
+                      case "lastName":
+                          alumn.lastName = formArray[i].value;
+                          break;
+                      default:
+                          alumn.assigments.push(formArray[i].value);
+                          break;
+                  }
+              }
+              editAlumn(alumn);*/
+        });
+
+
 
         //EDIT ALUMN
         $("tbody#alumns").on("click", "[data-action='edit']", function (e) {
@@ -233,8 +425,14 @@
             generateRows();
         });
 
+        $("#closeModal3").click(hideaddEditModal);
         $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
     });
+
+
+
+
+
 })();
 

@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>Students Grades Management</title>
-	<meta charset="utf-8" />
-    <link rel="stylesheet" href="content/css/default.css"/>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="content/css/default.css" />
     <script src="scripts/jquery-1.12.0.js"></script>
     <script src="scripts/default.js"></script>
 </head>
@@ -30,22 +30,24 @@
                 <tr id="row-header">
                     <th>Students</th>
                     <th>Task 1</th>
+                    <th>Tutor</th>
                     <th>Final Grade</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody id="alumns">
-                <tr>
+                <!--<tr>
                     <td>Yulianna Murillo</td>
                     <td>9.7</td>
                     <td>9.7</td>
                     <td><a class="editAlumn" href="#">Edit</a></td>
                     <td><a class="deleteAlumn" href="#">Delete</a></td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </main>
     <div id="cover"></div>
+
     <div id="modalDialog">
         <div id="editContainer">
             <header>
@@ -57,17 +59,49 @@
                     <input type="hidden" id="index" name="index" required />
                     <div>
                         <label for="alumn.name">First name</label>
-                        <input type="text" id="name" name="name" placeholder="First Name..." required/> 
+                        <input type="text" id="name" name="name" placeholder="First Name..." required />
                     </div>
                     <div>
                         <label for="lastName">Last name</label>
                         <input type="text" id="lastName" name="lastName" placeholder="Last Name..." required />
                     </div>
                 </section>
-                <section id="alumnGrades">
-                </section>
+                <section id="alumnGrades"></section>
                 <section id="editButtons">
                     <button type="submit">Edit</button>
+                </section>
+            </form>
+        </div>
+    </div>
+
+    <!--AISIGN TUTORS MODULE-->
+    <div id="cover3"></div>
+    <div id="modalDialog3">
+        <div id="addEditContainer">
+            <header>
+                <h3>Add/Edit Tutor</h3>
+                <span id="closeModal3">&times;</span>
+            </header>
+            <form id="addEditForm">
+                <section id="tutorData">
+                    <select id="slTutors" name="slTutors"></select>
+                    <div>
+                        <label for="alumn.name">Alumn name</label>
+                        <input type="text" id="alumn" name="alumn" disabled />
+                    </div>
+                    <input type="hidden" id="index3" name="index3" required />
+                    <div>
+                        <label for="tutor.name">First name</label>
+                        <input type="text" id="name3" name="name3" placeholder="First Name..." required />
+                    </div>
+                    <div>
+                        <label for="lastName3">Last name</label>
+                        <input type="text" id="lastName3" name="lastName3" placeholder="Last Name..." required />
+                    </div>
+                </section>
+                <!--<section id="alumnGrades"></section>-->
+                <section id="addEditButtons">
+                    <button type="submit">Assign Tutor</button>
                 </section>
             </form>
         </div>
