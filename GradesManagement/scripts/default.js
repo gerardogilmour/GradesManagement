@@ -170,6 +170,43 @@
 
     }
 
+    
+    function showTutorModal(index) {
+        var option = '';
+        for (var i = 1; i <= tutors.length; i++) {
+            option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
+        }
+        $('#slTutors').append(option);
+        //**************************
+        /*var alumn = alumns[index];
+        $("#addEditForm #index3").val(index);
+        $("#addEditForm #alumn").val(tutor.name + " " + alumn.lastName);
+
+        /* var html = "";
+         for (var i = 0; i < alumn.assigments.length ; i++) {
+             html += generateFormInput({
+                 id: "assigments[" + i + "]",
+                 name: "assigments[" + i + "]",
+                 index: i,
+                 title: alumn.assigments[i].description,
+                 value: alumn.assigments[i].grade
+             });
+         }
+         $("#alumnGrades").html(html);*/
+        $("#cover4").fadeTo(400, .5);
+        $("#modalDialog4").fadeIn();
+
+
+    }
+
+    function hideTutorModal() {
+        $("#modalDialog4").fadeOut().promise();
+        $("#cover4").fadeOut().promise().done(function () {
+            $("#addEditForm input").each(function () {
+                $(this).val("");
+            });
+        });
+    }
 
 
     function showAddEditModal(index) {
@@ -288,8 +325,22 @@
             generateRows();
         });
 
+        //Edit Tutor
+        $('#EditTu').on('click', function (e) {
+            e.preventDefault();
+            showTutorModal($(this).data("index"));
+        });
 
 
+        $("#editFormTu").on("submit", function (e) {
+            e.preventDefault();
+            var alumn = new Alumn($("#name2").val(), $("#lastName2").val());
+            for (var i = 0; i < assigments.length; i++) {
+                alumn.assigments.push(assigments[i]);
+            }
+            alumns.push(alumn);
+            generateRows();
+        });
 
 
         //ADD/EDIT TUTORS
@@ -425,6 +476,7 @@
             generateRows();
         });
 
+        $("#closeModal4").click(hideTutorModal);
         $("#closeModal3").click(hideaddEditModal);
         $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
