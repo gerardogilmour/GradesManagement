@@ -7,6 +7,7 @@
     var alumns = [];
     var assigments = [];
     var tutors = [];
+	var tutoAlumns=[];
 
     //PROTOTYPES
     var Assigment = function (description, grade) {
@@ -34,16 +35,58 @@
         }
     };
 
-
-
-    var Tutor = function (name, lastName) {     
+	var Tutor = function (name, lastName) {    
         this.name = name || "Juan";
         this.lastName = lastName || "Perez";
-
+        this.tutoAlumns =[];
         this.getFullName = function () {
             return this.name + " " + this.lastName;
         }
+
     };
+
+    function getAlumns(){
+    	
+        for(var i=0; i<tutors.length; i++){
+        	for(var j = 0;j<alumns.length;j++){
+        		if(tutors[i].getFullName() == alumns[j].tutor){
+        			tutors[i].tutoAlumns.push(alumns[j].getFullName());
+					
+        		}
+        	}
+        }
+    	
+    }
+    function generateTutorRows() {
+        var html = "";
+		getAlumns();
+        for (var i = 0; i < tutors.length; i++) {
+            html += "<tr>";
+            html += "<td>" + tutors[i].getFullName() + "</td>";
+            for (var j = 0; j < tutors[i].tutoAlumns.length; j++) {
+                html += "<td>" + tutors[i].tutoAlumns[j] + "</td>";
+            }
+								
+            html += "</tr>";
+        }
+		generateTutoColHeaders();
+        $("#tutors").html(html);
+    }
+	
+	function generateTutoColHeaders() {
+        var html = "<th>Tutors</th>";
+        var html2 = "";
+        for (var i = 0; i < tutors.length; i++) {
+			for(var j = 0;j< tutors[i].tutoAlumns.length;j++){
+				if( (j+1) == tutors[i].tutoAlumns.length ){
+					html2 = "<th colspan='"+ (j+1) +"'> Alumns</th>";
+				}
+			}
+		}
+		html = html + html2;
+                                                      
+        $("#rowTutoHeaders").html(html);
+    }
 
 
 
@@ -225,23 +268,27 @@
         assigments.push(new Assigment("Task 1"));
         assigments.push(new Assigment("Task 2"));
         generateColHeaders();
-
-        var alumn1 = new Alumn("Yulianna", "Murillo", "Tutor1");
-        alumn1.assigments.push(new Assigment("Task 1", "9.7"));
-        alumn1.assigments.push(new Assigment("Task 2", "9.7"));
-        alumns.push(alumn1);
-
-        var alumn2 = new Alumn("Fabricio", "Lopez", "Tutor2");
-        alumn2.assigments.push(new Assigment("Task 2", "9.45"));
-        alumn2.assigments.push(new Assigment("Task 2", "10"));
-        alumns.push(alumn2);
-
-        var tutur1 = new Tutor("Alejandro", "Pérez");
+		
+		var tutur1 = new Tutor("Alejandro", "Pérez");
         tutors.push(tutur1);
 
         var tutur2 = new Tutor("Maricela", "Martinez");
         tutors.push(tutur2);
+
+        var alumn1 = new Alumn("Yulianna", "Murillo", tutors[0].getFullName());
+        alumn1.assigments.push(new Assigment("Task 1", "9.7"));
+        alumn1.assigments.push(new Assigment("Task 2", "9.7"));
+        alumns.push(alumn1);
+
+        var alumn2 = new Alumn("Fabricio", "Lopez", tutors[1].getFullName());
+        alumn2.assigments.push(new Assigment("Task 2", "9.45"));
+        alumn2.assigments.push(new Assigment("Task 2", "10"));
+        alumns.push(alumn2);
+
+        
+        //alert(tutors.length);
         generateRows();
+        generateTutorRows();
         createAssigment();
 
 
