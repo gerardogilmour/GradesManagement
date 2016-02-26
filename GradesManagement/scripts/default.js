@@ -134,7 +134,7 @@
         }
         html += "<th>Final Grade</th>";
         html += "<th>Tutor</th>";
-        html += "<th colspan='4'>Actions</th>";                                              //************************************YOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        html += "<th colspan='4'>Actions</th>";                                             
         $("#row-header").html(html);
     }
 
@@ -146,6 +146,7 @@
         }
 
         html += "<td>" + alumn.calculateFinalGrade() + "</td>";
+        html += "<td>" + alumns[rowIndex].tutor + "</td>";    //*************************************
         html += "<td><a href='#' data-action='edit' data-index='" + rowIndex + "'>Edit</a></td>";
         html += "<td><a href='#' data-action='delete' data-index='" + rowIndex + "'>Delete</a></td>";
         html += "<td><a href='#' data-action='assign' data-index='" + rowIndex + "'>Assign Tutor</a></td>";
@@ -169,11 +170,12 @@
         hideEditModal();
     };
 
-    function assignTutor(data) {   
+    //Asign tutor function
+    function assignTutor(data) {
         var alumn = alumns[data.index];
         alumn.tutor = data.tutor;
         updateRow(data.index, alumn);
-        //hideAssignTutorModal();
+        hideAssignTutorModal();
     };
 
 
@@ -213,6 +215,8 @@
 
 
 
+    //MODAL assign TUTORS
+
     function showAssignTutorModal(index) {
         var option = '';
         $("#slTutors option").remove(); //Clean select-option
@@ -244,6 +248,7 @@
 
 
 
+
     function showAddModal(index) {
         var html = "";
         $("#alumnGrades2").html(html);
@@ -255,6 +260,25 @@
         $("#modalDialog2").fadeOut().promise();
         $("#cover2").fadeOut().promise().done(function () {
             $("#addForm input").each(function () {
+                $(this).val("");
+            });
+        });
+
+    }
+
+
+    //MODAL add TUTORS
+
+    function showAddTutorModal(index) {
+        var html = "";
+        $("#cover5").fadeTo(400, .5);
+        $("#modalDialog5").fadeIn();
+    }
+
+    function hideAddTutorModal() {
+        $("#modalDialog5").fadeOut().promise();
+        $("#cover5").fadeOut().promise().done(function () {
+            $("#addTutorForm input").each(function () {
                 $(this).val("");
             });
         });
@@ -316,18 +340,33 @@
         });
 
 
+        //ADD TUTOR
+
+        $('#btnAddTutor').on('click', function (e) {
+            e.preventDefault();
+            showAddTutorModal($(this).data("index"));
+        });
 
 
+        $("#addTutorForm").on("submit", function (e) {
+            e.preventDefault();
+            var tutor = new Tutor($("#name5").val(), $("#lastName5").val());
+            tutors.push(tutor);
+            alert("Added: " + $("#name5").val() + " " + $("#lastName5").val());
+            generateRows();
+            hideAddTutorModal();
+        });
+
+        
 
         //ASSIGN TUTORS
+
         $("tbody#alumns").on("click", "[data-action='assign']", function (e) {
             showAssignTutorModal($(this).data("index"));
         });
 
 
-
-        //EXTRACT DATA FROM select-option
-        $('#slTutors').bind('change', function () {
+        $('#slTutors').bind('change', function () {  //EXTRACT DATA FROM select-option
             var $this = $(this),
             $value = $this.val();   //Extraer indice de selección
             $("#assignTutorForm #name3").val(tutors[$value - 1].name);
@@ -335,17 +374,18 @@
         });
 
 
-        $("#assignTutorForm").on("submit", function (e) {
+        $("#assignTutorForm").on("submit", function (e) {  //Asign Tutors submit
             e.preventDefault();
             var alumn = {
                 assigments: []
             };
             var formArray = $(this).serializeArray();
             alumn.index = formArray[1].value;
-            alumn.tutor = formArray[2].value;
+            alumn.tutor = formArray[2].value + " " + formArray[3].value;
             assignTutor(alumn);
             generateRows();
         });
+
 
 
 
@@ -387,6 +427,7 @@
             generateRows();
         });
 
+        $("#closeModal5").click(hideAddTutorModal);  
         $("#closeModal3").click(hideAssignTutorModal);  
         $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
