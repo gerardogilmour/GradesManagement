@@ -36,7 +36,7 @@
 
 
 
-    var Tutor = function (name, lastName) {     //****************************************YOOOOOOOOOOOOOOOOOOOOOOOO
+    var Tutor = function (name, lastName) {     
         this.name = name || "Juan";
         this.lastName = lastName || "Perez";
 
@@ -78,7 +78,7 @@
             html += "<td>" + alumns[i].tutor + "</td>";
             html += "<td><a href='#' data-action='edit' data-index='" + i + "'>Edit</a></td>";
             html += "<td><a href='#' data-action='delete' data-index='" + i + "'>Delete</a></td>";
-            html += "<td><a href='#' data-action='add' data-index='" + i + "'>Add Tutor</a></td>";              //*********************YOOOOOOOOOOOOOOOOOOOOOOOOOO
+            html += "<td><a href='#' data-action='assign' data-index='" + i + "'>Assign Tutor</a></td>";              //*********************YOOOOOOOOOOOOOOOOOOOOOOOOOO
             html += "</tr>";
         }
         $("#alumns").html(html);
@@ -105,7 +105,7 @@
         html += "<td>" + alumn.calculateFinalGrade() + "</td>";
         html += "<td><a href='#' data-action='edit' data-index='" + rowIndex + "'>Edit</a></td>";
         html += "<td><a href='#' data-action='delete' data-index='" + rowIndex + "'>Delete</a></td>";
-        html += "<td><a href='#' data-action='add' data-index='" + rowIndex + "'>Add Tutor</a></td>";
+        html += "<td><a href='#' data-action='assign' data-index='" + rowIndex + "'>Assign Tutor</a></td>";
         $("tr[data-index='" + rowIndex + "']").html(html);
     }
 
@@ -126,13 +126,11 @@
         hideEditModal();
     };
 
-    function assignTutor(data) {   //************** A ver si funciona sin agregar todos los parametros
+    function assignTutor(data) {   
         var alumn = alumns[data.index];
-        //alert(data.name);
-        //alumn.tutor = data.tutor;
         alumn.tutor = data.tutor;
         updateRow(data.index, alumn);
-        hideaddEditModal();
+        //hideAssignTutorModal();
     };
 
 
@@ -170,77 +168,30 @@
 
     }
 
-    
-    function showTutorModal(index) {
+
+
+    function showAssignTutorModal(index) {
         var option = '';
+        $("#slTutors option").remove(); //Clean select-option
+        option += '<option selected disabled class="hideoption">Select a Tutor</option>';
         for (var i = 1; i <= tutors.length; i++) {
             option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
         }
         $('#slTutors').append(option);
-        //**************************
-        /*var alumn = alumns[index];
-        $("#addEditForm #index3").val(index);
-        $("#addEditForm #alumn").val(tutor.name + " " + alumn.lastName);
 
-        /* var html = "";
-         for (var i = 0; i < alumn.assigments.length ; i++) {
-             html += generateFormInput({
-                 id: "assigments[" + i + "]",
-                 name: "assigments[" + i + "]",
-                 index: i,
-                 title: alumn.assigments[i].description,
-                 value: alumn.assigments[i].grade
-             });
-         }
-         $("#alumnGrades").html(html);*/
-        $("#cover4").fadeTo(400, .5);
-        $("#modalDialog4").fadeIn();
-
-
-    }
-
-    function hideTutorModal() {
-        $("#modalDialog4").fadeOut().promise();
-        $("#cover4").fadeOut().promise().done(function () {
-            $("#addEditForm input").each(function () {
-                $(this).val("");
-            });
-        });
-    }
-
-
-    function showAddEditModal(index) {
-        var option = '';
-        for (var i = 1; i <= tutors.length; i++) {
-            option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
-        }
-        $('#slTutors').append(option);
-        //**************************
         var alumn = alumns[index];
-        $("#addEditForm #index3").val(index);
-        $("#addEditForm #alumn").val(alumn.name + " " + alumn.lastName);
+        $("#assignTutorForm #index3").val(index);
+        $("#assignTutorForm #alumn").val(alumn.name + " " + alumn.lastName);
 
-        /* var html = "";
-         for (var i = 0; i < alumn.assigments.length ; i++) {
-             html += generateFormInput({
-                 id: "assigments[" + i + "]",
-                 name: "assigments[" + i + "]",
-                 index: i,
-                 title: alumn.assigments[i].description,
-                 value: alumn.assigments[i].grade
-             });
-         }
-         $("#alumnGrades").html(html);*/
         $("#cover3").fadeTo(400, .5);
         $("#modalDialog3").fadeIn();
-
-
     }
 
-    function hideaddEditModal() {
+
+    function hideAssignTutorModal() {
         $("#modalDialog3").fadeOut().promise();
         $("#cover3").fadeOut().promise().done(function () {
-            $("#addEditForm input").each(function () {
+            $("#assignTutorForm input").each(function () {
                 $(this).val("");
             });
         });
@@ -269,13 +220,6 @@
 
 
 
-    /*  function check() {
-          alert($("#slTutors").prop('selectedIndex'));
-          alert(document.getElementById("slTutors").value);
-      }*/
-
-
-
     $(document).on("ready", function () {
         //INITIAL DATA
         assigments.push(new Assigment("Task 1"));
@@ -297,7 +241,6 @@
 
         var tutur2 = new Tutor("Maricela", "Martinez");
         tutors.push(tutur2);
-        //alert(tutors.length);
         generateRows();
         createAssigment();
 
@@ -325,28 +268,13 @@
             generateRows();
         });
 
-        //Edit Tutor
-        $('#EditTu').on('click', function (e) {
-            e.preventDefault();
-            showTutorModal($(this).data("index"));
-        });
 
 
-        $("#editFormTu").on("submit", function (e) {
-            e.preventDefault();
-            var alumn = new Alumn($("#name2").val(), $("#lastName2").val());
-            for (var i = 0; i < assigments.length; i++) {
-                alumn.assigments.push(assigments[i]);
-            }
-            alumns.push(alumn);
-            generateRows();
-        });
 
 
-        //ADD/EDIT TUTORS
-        $("tbody#alumns").on("click", "[data-action='add']", function (e) {
-            e.preventDefault();
-            showAddEditModal($(this).data("index"));
+        //ASSIGN TUTORS
+        $("tbody#alumns").on("click", "[data-action='assign']", function (e) {
+            showAssignTutorModal($(this).data("index"));
         });
 
 
@@ -355,85 +283,21 @@
         $('#slTutors').bind('change', function () {
             var $this = $(this),
             $value = $this.val();   //Extraer indice de selección
-            $("#addEditForm #name3").val(tutors[$value - 1].name);
-            $("#addEditForm #lastName3").val(tutors[$value - 1].lastName);
+            $("#assignTutorForm #name3").val(tutors[$value - 1].name);
+            $("#assignTutorForm #lastName3").val(tutors[$value - 1].lastName);
         });
 
 
-        $("#addEditForm").on("submit", function (e) {
+        $("#assignTutorForm").on("submit", function (e) {
             e.preventDefault();
-            //$('#confirmar').on('click', function () {
-            //var assigment = new Assigment($('#tarea').val());
-            /*var option = '';
-            for (var i = 1; i <= tutors.length; i++) {
-                option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
-            }
-            $('#slTutors').append(option);
-            //**************************
-            var alumn = alumns[index];
-            $("#addEditForm #index3").val(index);
-            $("#addEditForm #alumn").val(alumn.name + " " + alumn.lastName);
-            */
-
-
-            /*  var tutor = new Tutor($("#name3").val(), $("#lastName3").val());
-              alumns.push()
-              assigments.push(assigment);
-              for (var i = 0; i < alumns.length; i++) {
-                  alumns[i].assigments.push(assigment);
-              }
-              generateColHeaders();
-              generateRows();*/
             var alumn = {
                 assigments: []
             };
             var formArray = $(this).serializeArray();
-            alert(formArray[2].value);
             alumn.index = formArray[1].value;
-            //alumn.name = formArray[2].value;
             alumn.tutor = formArray[2].value;
             assignTutor(alumn);
             generateRows();
-
-            /*for (var i = 0; i < formArray.length; i++) {
-                switch (formArray[i].name) {
-                    case "index3":
-                        alert("caso 1: "+formArray[i].name);
-                        break;
-                    case "name3":
-                        alert("caso 2: " + formArray[i].name);
-                        break;
-                    case "lastName3":
-                        alert("caso 3: " + formArray[i].name);
-                        break;
-                    default:   //"slTutors"
-                        alert("default: " + formArray[i].name);
-                        break;
-                }
-            }*/
-            // editAlumn(alumn);
-            //});
-            /*   var alumn = {
-                  assigments: []
-              };
-              var formArray = $(this).serializeArray();
-              for (var i = 0; i < formArray.length; i++) {
-                  switch (formArray[i].name) {
-                      case "index":
-                          alumn.index = formArray[i].value;
-                          break;
-                      case "name":
-                          alumn.name = formArray[i].value;
-                          break;
-                      case "lastName":
-                          alumn.lastName = formArray[i].value;
-                          break;
-                      default:
-                          alumn.assigments.push(formArray[i].value);
-                          break;
-                  }
-              }
-              editAlumn(alumn);*/
         });
 
 
@@ -476,8 +340,7 @@
             generateRows();
         });
 
-        $("#closeModal4").click(hideTutorModal);
-        $("#closeModal3").click(hideaddEditModal);
+        $("#closeModal3").click(hideAssignTutorModal);  
         $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
     });

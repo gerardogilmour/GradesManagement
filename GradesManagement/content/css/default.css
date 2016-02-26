@@ -12,7 +12,7 @@ body {
     display: none;
 }
 
-#editContainer, #addContainer, #addEditContainer, #editContainerTu {
+#editContainer, #addContainer, #assignTutorContainer {
     position: relative;
     background-color: #FFFFFF;
     padding: 2em;
@@ -24,7 +24,7 @@ body {
     box-shadow: rgba(0,0,0,.5) 4px 5px 10px;
 }
 
-#modalDialog, #modalDialog2, #modalDialog3, #modalDialog4  {
+#modalDialog, #modalDialog2, #modalDialog3  {
     display: none;
     position: absolute;
     top: 0px;
@@ -34,7 +34,7 @@ body {
     z-index: 101;
 }
 
-#cover,  #cover2, #cover3, #cover4 {
+#cover,  #cover2, #cover3 {
     display: none;
     position: absolute;
     background-color: black;
@@ -45,7 +45,7 @@ body {
     height: 100%;
 }
 
-#closeModal, #closeModal2, #closeModal3, #closeModal4 {
+#closeModal, #closeModal2, #closeModal3 {
     font-family: fantasy;
     cursor: pointer;
     float: right;
@@ -63,19 +63,15 @@ body {
         color: lightblue;
     }
 
-      #closeModal4:hover {
-        color: lightblue;
-    }
-
-#editContainer > header > h3,  #addContainer > header > h3,  #addEditContainer > header > h3,#editContainerTu >header >h3 {
+#editContainer > header > h3,  #addContainer > header > h3,  #assignTutorContainer > header > h3 {
     display: inline-block;
 }
 
-#editForm > section > div, #addForm > section > div, #addEditForm > section > div, #addEditForm > section > select,#editFormTu >section >div {
+#editForm > section > div, #addForm > section > div, #addEditForm > section > div, #assignTutorForm > section > select {
     margin: 5px auto;
 }
 
-    #editForm > section > div > label, #editForm > section > div > input,    #addForm > section > div > label, #addForm > section > div > input,    #addEditForm > section > div > label, #addEditForm > section > div > input, #editFormTu > section > div > label, #editFormTu > section > div > input  {
+    #editForm > section > div > label, #editForm > section > div > input,    #addForm > section > div > label, #addForm > section > div > input,    #assignTutorForm > section > div > label, #assignTutorForm > section > div > input  {
         width: 100%;
         margin: 5px auto;
         -moz-box-sizing: border-box;
@@ -83,12 +79,12 @@ body {
         box-sizing: border-box;
     }
 
-#editForm input, #addForm input, #addEditForm input, #editFormTu input {
+#editForm input, #addForm input, #assignTutorForm input {
     padding: 5px;
 }
 
 
-#editButtons, #addButtons, #addEditButtons {
+#editButtons, #addButtons, #assignTutorButtons {
     margin: 5px auto;
 }
 
@@ -97,7 +93,7 @@ body {
         width: 50px;
     }
 
-     #addEditButtons button {
+     #assignTutorButtons button {
         padding: 5px;
         width: 100px;
     }
