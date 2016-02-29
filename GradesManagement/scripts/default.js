@@ -47,8 +47,9 @@
 
     function getAlumns(){
     	
-        for(var i=0; i<tutors.length; i++){
-        	for(var j = 0;j<alumns.length;j++){
+        for (var i = 0; i < tutors.length; i++) {
+            tutors[i].tutoAlumns = [];
+            for (var j = 0; j < alumns.length; j++) {
         		if(tutors[i].getFullName() == alumns[j].tutor){
         			tutors[i].tutoAlumns.push(alumns[j].getFullName());
 					
@@ -109,6 +110,7 @@
 
     function generateRows() {
         var html = "";
+       // getAlumns();
         for (var i = 0; i < alumns.length; i++) {
             html += "<tr data-index='" + i + "'>";
             html += "<td>" + alumns[i].getFullName() + "</td>";
@@ -175,11 +177,30 @@
         var alumn = alumns[data.index];
         alumn.tutor = data.tutor;
         updateRow(data.index, alumn);
+
+        generateRows();
+        generateTutorRows();
         hideAssignTutorModal();
     };
 
 
+    function modifyTutor(data) {
+        //var tutur2 = new Tutor(data.tutor, data.tutorL);
+        //tutors.push(tutur2);
+        var tutor = tutors[data.index - 1];
+        tutor.name = data.name;
+        tutor.lastname = data.lastname;
+        /*
+        var nm=data.name;
+        var lm = data.lastname;
+        var indes = data.index - 1;
+        tutors[indes]=new Tutor(nm,lm);*/
+        
+        generateRows();
+        generateTutorRows();
 
+
+    }
 
 
     function showEditModal(index) {
@@ -213,7 +234,34 @@
 
     }
 
+    //Modal Edit TUTORS
+    function showTutorModal(index) {
+        var option = '';
+        $("#slTutors2 option").remove(); //Clean select-option
+        for (var i = 1; i <= tutors.length; i++) {
+            option += '<option value="' + i + '">' + tutors[i - 1].getFullName() + '</option>';
+        }
 
+
+        $('#slTutors2').append(option);
+
+        var tutor = tutors[index];
+        $("#editFormTu #index4").val(index);
+
+    $("#cover4").fadeTo(400, .5);
+    $("#modalDialog4").fadeIn();
+
+
+}
+
+    function hideTutorModal() {
+        $("#modalDialog4").fadeOut().promise();
+        $("#cover4").fadeOut().promise().done(function () {
+            $("#addEditForm input").each(function () {
+                $(this).val("");
+            });
+        });
+    }
 
     //MODAL assign TUTORS
 
@@ -340,6 +388,35 @@
         });
 
 
+        //Edit TUTOR
+        $('#EditTu').on('click', function (e) {
+            e.preventDefault();
+            showTutorModal($(this).data("index"));
+        });
+
+        $('#slTutors2').bind('change', function () {
+            var $this1 = $(this),
+            $value = $this1.val();   //Extraer indice de selección
+            $("#editFormTu #nameTu").val(tutors[$value - 1].name);
+            $("#editFormTu #lastNameTu").val(tutors[$value - 1].lastName);
+        });
+
+
+        $("#editFormTu").on("submit", function (e2) {
+            e2.preventDefault();
+            var alumn = {
+                assigments: []
+            };
+
+            var formArray = $(this).serializeArray();
+            alert(formArray[2].value);
+            alumn.index = formArray[0].value;
+            //alumn.name = formArray[2].value;
+            alumn.name = formArray[2].value;
+            alumn.lastname = formArray[3].value;
+            modifyTutor(alumn);
+            generateRows();
+        });
         //ADD TUTOR
 
         $('#btnAddTutor').on('click', function (e) {
@@ -427,7 +504,8 @@
             generateRows();
         });
 
-        $("#closeModal5").click(hideAddTutorModal);  
+        $("#closeModal5").click(hideAddTutorModal);
+        $("#closeModal4").click(hideTutorModal);
         $("#closeModal3").click(hideAssignTutorModal);  
         $("#closeModal2").click(hideAddModal);
         $("#closeModal").click(hideEditModal);
